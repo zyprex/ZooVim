@@ -1,0 +1,23 @@
+>> c.snipe
+
+cppio
+#include <iostream>
+
+cl
+class @ ; {
+    @ ;
+};
+
+
+us
+using namespace @std;;
+
+cin
+cin>>@ ;;
+
+cout
+cout<<@ ;<<endl;
+
+
+
+

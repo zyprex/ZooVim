@@ -1,0 +1,136 @@
+
+if
+if( @ ; ){
+}
+
+ef eif
+else if( @ ; ){
+}
+
+el else
+else{
+    @ ;
+}
+
+sw swi switch
+switch( @ ; ){
+    case @ ;:
+        @ ;
+        break;
+    default:
+        break;
+}
+
+ca cas case
+case @ ;:
+    @  ;
+    break;
+
+fo for
+for( i=0\;i<@len;\; ++i ){
+    @ ;
+}
+
+wh while
+while( @1; ){
+}
+
+do
+do{
+    @ ;
+}while( @ ; );
+
+si sizeof
+sizeof( @ ; )
+
+nl newline \n
+putchar( 10 );
+
+//
+/* @ ; */
+
+///
+/*
+ * @ ;
+ */
+
+st
+struct @ ; {
+};
+
+un
+union @ ; {
+};
+
+de
+#define @ ;
+
+in
+#include <@ ;.h>
+
+inc
+#include "@ ;.h"
+
+cio
+#include <stdio.h>
+
+once
+#ifndef _@=echo toupper(expand("%<"));_H_
+#define @=echo toupper(expand("%<"));
+@ ;
+#endif /* @=echo toupper(expand("%<")); */
+
+ma main
+int main( int argc, char** argv )
+{
+    @ ;
+    return 0;
+}
+
+f fu fun
+@void; @func;( @void; )
+
+re
+return @ ;;
+
+fcm
+/********************************************************************
+ * \@fn      @ ; 
+ * \@brief   @ ; 
+ * \@param   @ ; 
+ * \@return  @none;
+ *******************************************************************/
+
+tt
+/* @=echo strftime('%c'); */
+@ ;
+
+td
+time: @=echo strftime( "%T" );
+date: @=echo strftime( "%Y-%m-%d" );
+@ ;
+
+sc scanf
+scanf( "@ ;", &@ ; )\;
+
+pr printf
+printf("@%s;")\;
+
+
+arrl
+#define ARRL(X) sizeof(X)/sizeof(*X)
+
+rand
+@=echo str2nr(reltimestr(reltime())[-2:]);
+
+fpo fp
+FILE* fp = fopen("@a.txt;","@rw+;");
+if (NULL==fp) {
+    perror("fopen");
+    return -1;
+}
+fclose(fp);
+
+perr
+perror("@ ;")\;
+

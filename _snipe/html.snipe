@@ -1,0 +1,33 @@
+>> javascript.snipe
+
+!
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+    @ ;
+</body>
+</html>
+
+class
+<div class="@ ;">@;</div>
+
+id
+<div id="@ ;">@;</div>
+
+co
+console.log(@"";);
+
+div
+<div>@;</div>
+
+sc script
+<script@ src="";>@;</script>
+
+st style
+<style@ src="";>@;</style>
+
+

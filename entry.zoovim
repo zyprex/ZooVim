@@ -1,0 +1,291 @@
+" ======================================================================
+" File: entry.zoovim
+" Author: zyprex
+" Description:  example .vimrc for zoovim
+" Last Modified: February 18, 2021
+" ======================================================================
+" Required:{{{
+if &cp |set cp!|endif
+filetype plugin indent on
+syntax enable
+set rtp+=~/.vim
+"colorscheme ron
+colorscheme stray_volcano
+call bar#Highlight()
+call bar#HighlightNC()
+set encoding=utf-8 fileencodings+=gbk,cp936,gb2312,gb18030,shift-jis
+if has("gui_running") && $MYGVIMRC == ''
+  set guicursor+=a:blinkon0 guioptions=gt! linespace=0 mousehide
+  nnoremap<silent> <F1> :if &go=~'!'<bar>set go-=!<bar>else<bar>set go+=!<bar>endif<bar>echo &go<CR>
+  nnoremap <F2> :set guifont=<C-R>=&guifont<CR>
+  if has('win32')
+    nnoremap <M-Space> :sim ~<CR> 
+    set guifont=Consolas:h14 guifontwide=黑体:h14
+    if has("directx")
+      set renderoptions=type:directx
+    end
+  elseif has('unix')
+    set guifont=Monospace\ 16
+  endif
+endif
+"}}}
+
+" DangerZone:{{{
+set autoread backup backupdir=~/.cache/.vimbkp,. undofile undodir=~/.cache/.vimundo,.
+"autowriteall
+"set autochdir gdefault hidden mouse=a scrolloff=99 sidescroll=1 sidescrolloff=1 shiftround browsedir=buffer
+"}}}
+
+" SafeZone:{{{
+"set cmdwinheight=10 showcmd showmatch matchtime=2 noshowmode nofixendofline nostartofline display=lastline belloff=all
+set title titlestring=%<%F%=%l/%L-%P titlelen=70 laststatus=2 helpheight=0
+set hlsearch incsearch ignorecase smartcase shortmess=tTFc
+set updatetime=400 timeoutlen=800 history=999 backspace=2 noswapfile
+" show special char
+set listchars=tab:»\ ,trail:·,nbsp:_,precedes:<,extends:>
+" enable fuzzy finding in command line
+set wildmenu wildmode=full path+=$PWD/**
+set linebreak breakindent breakat=" ;:,./?!" showbreak=
+"}}}
+
+"Autocmd:{{{
+aug CommonUI
+  au!
+  au FileType vim,c,cpp,html,css,javascript,markdown
+        \ setl nu rnu list formatoptions+=mBj
+aug END
+aug CommonIndent
+  au!
+  au FileType vim,c,cpp,html,css,javascript,markdown
+        \ setl expandtab shiftwidth=2 tabstop=2 autoindent smartindent
+aug END
+aug CommonFold
+  au!
+  au FileType python setl foldmethod=indent
+aug END
+aug RestoreCursor
+  au!
+  au BufReadPost *
+  \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  \ |exe "normal! g`\"" |endif
+aug END
+" aug Fmt
+  " "don't insert comment leader automatically"
+  " au!
+  " au FileType * setl formatoptions-=cro
+" aug END
+" }}}
+
+" Keymaps:{{{
+nnoremap <BS> :cd ..<CR>:pwd<CR>
+nnoremap <C-BS> :exe 'cd ' expand('%:h')<CR>:pwd<CR>
+" cancel search highlight
+nnoremap \ :noh\|diffupdate\|redraw\|pwd<CR>
+" always enter improved Ex-mode
+nnoremap Q gQ
+" always enter virtual Replace-mode
+nnoremap r gr
+nnoremap R gR
+" inspired by vim-unimpaired
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
+nnoremap [c :cprevious<CR>
+nnoremap ]c :cnext<CR>
+nnoremap [l :lprevious<CR>
+nnoremap ]l :lnext<CR>
+nnoremap [t :tprevious<CR>
+nnoremap ]t :tnext<CR>
+nnoremap <leader>[ :cclose<CR>
+nnoremap <leader>] :<C-R>=len(getqflist())<CR>copen<CR>
+nnoremap <leader>{ :lclose<CR>
+nnoremap <leader>} :<C-R>=len(getloclist(0))<CR>lopen<CR>
+nnoremap <leader>\ :pclose<CR>
+" auto-pair
+inoremap `` ``i
+inoremap %% %%i
+inoremap '' ''i
+inoremap "" ""i
+inoremap () ()i
+inoremap [] []i
+inoremap {} {}i
+inoremap <> <>i
+inoremap {<CR> {}i<CR>==O
+" line move up/down
+nnoremap <C-k> :m-2<CR>==
+nnoremap <C-j> :m+<CR>==
+xnoremap <C-k> :m<C-R>=line('v')-2<CR><CR>gv=gv
+xnoremap <C-j> :m<C-R>=line("'>")+1<CR><CR>gv=gv
+" buffer maximize
+" nnoremap <C-w><C-w> <C-w><C-w><C-w><C-_><C-w><C-\|>
+" reselect visual block after indent
+vnoremap < <gv
+vnoremap > >gv
+" inoremap <C-Y> diwa<></>PF>Pl emacs-like-keybind " inoremap <C-A> <HOME> <C-F> <RIGHT> <C-B> <LEFT> <M-!> :!
+cnoremap w!! w !sudo tee % >/dev/null
+nnoremap s <NOP>
+let mapleader='s'
+nnoremap <leader>w :up<CR>
+nnoremap <leader>a <C-^>
+"let g:netrw_banner=0 let g:netrw_liststyle = 2 let g:netrw_list_hide= '.*\.swp$' let g:netrw_sort_by = "exten"
+"let g:netrw_sizestyle = "H" let g:netrw_winsize = 20 let g:netrw_special_syntax = 1 file operation
+"nnoremap <leader>E :Sexplore<CR> 
+" n-mode paste copy
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+nnoremap <leader>yy "+yy
+nnoremap <leader>y "+y
+" v-mode paste copy
+xnoremap <leader>p "+p
+xnoremap <leader>P "+P
+xnoremap <leader>y "+y
+" s-mode paste
+snoremap <C-y> gv"+p
+" append to clipboard reg
+xnoremap say y:let @+ .= @0<cr>
+" Execute current line or current selection as Vim EX commands.
+" use :@0 after yank 'echo 0'
+" nnoremap <F7> :exe getline(".")<CR>
+" vnoremap <F7> :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
+"}}}
+
+" Misc:{{{
+"surroundOnion"
+nnoremap - :call  misc#surroundOnion('nd')<CR>
+vnoremap - :call  misc#surroundOnion('vd')<CR>
+nnoremap g+ :call misc#surroundOnion('nW')<CR>
+nnoremap + :call  misc#surroundOnion('nw')<CR>
+vnoremap + :call  misc#surroundOnion('vv')<CR>
+"comment"
+com! -range Comment <line1>,<line2>call misc#comment()
+"for some reason ctrl+/ can't be map, but in terminal it's same as ctrl+_"
+nnoremap<silent> gcc :call misc#comment()<CR>
+"range operation [N]gc comment/uncomment line"
+nnoremap<expr><silent> gc misc#commentRange()
+xnoremap<expr><silent> gc misc#commentRange()
+"indentAt"
+com! -range -nargs=* I call misc#indentAt(<line1>, <line2>, '<args>', ' ')
+"directCd"
+com! DirectCd call misc#directCd()
+"ftconf"
+com! FtConf call misc#ftconf()
+"filedo"
+com! FiledoRename call misc#filedo("rename")
+com! FiledoCopy call misc#filedo("copy")
+com! FiledoDelete call misc#filedo("delete")
+com! FiledoRmdir call misc#filedo("rmdir")
+com! FiledoMkdir call misc#filedo("mkdir")
+"indentRuler"
+com! IndentRuler call misc#indentRuler()
+"}}}
+
+" Plugin:{{{
+aug BAR
+  au!
+  au BufEnter * setl stl=%!bar#StatusLine(\'ac\')
+  au BufLeave * setl stl=%!bar#StatusLine(\'nc\')
+  au FileType qf setl stl=%!bar#StatusLine(\'ac\')
+aug END
+
+let g:hunter_max_clue_default = 2
+command! HunterRun  call hunter#mapAll()
+command! HunterStop call hunter#unmapAll()
+
+com! -nargs=1 -complete=command UCmd call unicorn#cmd('<args>')
+com! -nargs=1 -complete=shellcmd URedir call unicorn#redir('<args>')
+com! UGitStatus call unicorn#git('status')
+com! UGitReflog call unicorn#git('reflog')
+com! UGitDiff call unicorn#git('diff', 'set ft=diff')
+com! UGitBranch call unicorn#git('branch --all')
+com! UGitGraph call unicorn#git('log --all --graph --abbrev-commit --pretty=format:"%h %s <%an %ce> [%cr] %d"')
+com! UGitLog call unicorn#git('log')
+com! UFileList  call unicorn#filelist()
+com! -nargs=1 UWebclipQuword call unicorn#webclip('quword', '<args>')
+com! -nargs=1 UWebclipWordnet call unicorn#webclip('wordnet', '<args>')
+
+com! -nargs=* -complete=file Fe call fenrir#Run('<args>')
+com! -nargs=* -complete=buffer FeBuffers call fenrir#Buffers('<args>')
+com! -nargs=* -complete=file FeMRU call fenrir#MRU('<args>')
+com! -nargs=* -complete=file FeLines call fenrir#Lines('<args>')
+com! -nargs=* -complete=color FeColors call fenrir#Colors('<args>')
+com! -nargs=* -complete=command FeCommands call fenrir#Commands('<args>')
+com! -nargs=* -complete=file FeFd call fenrir#Fd('<args>')
+com! -nargs=* -complete=file FeRg call fenrir#Rg('<args>')
+com! -nargs=* -complete=file FeAg call fenrir#Ag('<args>')
+com! -nargs=* -complete=file FeCtags call fenrir#Ctags('<args>')
+
+inoremap<silent> <C-E> :call snipe#fly()<CR>
+inoremap<silent> <C-D> :call snipe#Forward()<CR>
+inoremap<silent> <C-S> :call snipe#Backward()<CR>
+snoremap<silent> <C-D> :call snipe#Forward()<CR>
+snoremap<silent> <C-S> :call snipe#Backward()<CR>
+xnoremap<silent> <C-D> :call snipe#Forward()<CR>
+xnoremap<silent> <C-S> :call snipe#Backward()<CR>
+com! Snipe call snipe#open()
+com! -nargs=+ -complete=custom,snipe#list SnipeLoad call snipe#load('<args>') | echo g:snipe_import
+com! SnipeReset let g:snipe_import = []
+
+com! -nargs=+ -complete=shellcmd Task call task#run('<args>')
+com! TaskLog call task#log()
+
+com! -nargs=+ -complete=customlist,cat#git G !git <args>
+com! -nargs=+ -complete=customlist,cat#pandoc Pandoc !pandoc <args>
+
+inoremap<expr> <Tab> ape#do()
+com! ApeEnable call ape#enable(1)
+com! ApeDisable call ape#enable(0)
+let g:ape_min_trig = 2
+let g:ape_chains = {
+      \"vim":['vcmd','prev','c-p','file','line'],
+      \}
+"use `autocmd` set default method in buffer, for example:
+" aug ApeDefaultMethod
+  " au!
+  " au FileType vim let b:ape_default_method='vcmd'
+" aug END
+"}}}
+
+"Experimental:{{{
+let g:cue_group_maps = []
+nnoremap<nowait> <space> :call misc#cue(g:cue_group_maps)<CR>
+let g:cue_group_maps += [[ "/","Fenrir", "call misc#cue(g:fe_group_maps)" ]]
+let g:fe_group_maps = [
+      \[ "/", "Fenrir", "Fe" ],
+      \[ "b", "buffers", "FeBuffers" ],
+      \[ "m", "mru", "FeMRU" ],
+      \[ "l", "lines", "FeLines" ],
+      \[ "C", "colors", "FeColors" ],
+      \[ "c", "commamds", "FeCommands" ],
+      \[ "f", "fd", "FeFd" ],
+      \[ "r", "rg", "FeRg" ],
+      \[ "a", "ag", "FeAg" ],
+      \[ "t", "ctags", "FeCtags ".expand('%')],
+      \]
+let g:cue_group_maps += [[ "u","unicorn", "call misc#cue(g:uni_group_maps)" ]]
+let g:uni_group_maps = [
+      \[ "f", "file", "UFileList" ],
+      \[ "g", "git", "call misc#cue(g:uni_group_maps_git)" ],
+      \]
+let g:uni_group_maps_git = [
+      \[ "b", "branch", "UGitBranch" ],
+      \[ "d", "diff", "UGitDiff" ],
+      \[ "g", "graph", "UGitGraph" ],
+      \[ "l", "log", "UGitLog" ],
+      \[ "r", "reflog", "UGitReflog" ],
+      \[ "s", "status", "UGitStatus" ],
+      \]
+let g:cue_group_maps += [[ "t","toggle", "call misc#cue(g:tog_group_maps)" ]]
+let g:tog_group_maps =  [
+      \[ "w","wrap", "call misc#toggler('wrap')"],
+      \[ "p","paste", "call misc#toggler('paste')"],
+      \[ "=","spell", "call misc#toggler('spell')"],
+      \[ "-","cul", "call misc#toggler('cul')"],
+      \[ "|","cuc", "call misc#toggler('cuc')"],
+      \[ "a","acd", "call misc#toggler('acd')"],
+      \[ "s","so", "call misc#toggler('so')"],
+      \[ "c","cole", "call misc#toggler('sole')"],
+      \[ "v","ve", "call misc#toggler('ve')"],
+      \[ "h","hitest", "call misc#toggler('hitest')"],
+      \]
+"}}}
+
+" vim:fen:fdm=marker:nowrap:ts=2:fen

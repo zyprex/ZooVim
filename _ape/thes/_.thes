@@ -1,0 +1,184 @@
+Abbreviation Abbr
+Addition Add
+Accumulator Acc
+Address Addr
+Action Act
+Active Act
+Amplitude Amp
+Allocate Alloc
+Analog_Output AO
+Analog_Iutput AI
+Argument Arg
+Array Arr
+Assemble Asm
+Attribute Attrib Attr
+Available Av
+Block Blk
+Buffer Buf
+Button Btn
+Calibration Cal
+Calculate Calc
+Configuration Config Conf Cfg
+Channel Ch
+Change Chg Offset Shift
+Check Chk Ck
+Clock Clk
+Clear Clr
+Clear_Screen Cls
+Command Cmd
+Compare Cmp
+Complete Comp
+Count Cnt
+Counter Ctr
+Column Col Row Line
+Communication Comm
+Connect Con
+Construct Cons
+Control Ctrl
+Context Ctx
+Convert Conv
+Copy Cp
+Current Cur
+Cursor Csr
+Control_Word CW
+Decrease Dec Increase Inc
+Decimal Dec Hexadecimal Hex Octal Oct Binary Bin
+Define Def
+Degree Deg
+Delete Del
+Destination Dst
+Descriptor Desc
+Device Dev
+Discrete_Input DI
+Discrete_Output DO
+Digit Dig
+Disable Dis Enable En
+Display Disp
+Discovery Disc
+Divisor Division Div
+Delay Dly
+Day_of_week DOW
+Dynamic Dyn
+Effective Eff
+Electric Elec
+Engine Eng
+Equivalent Equiv Eq
+Error Err
+Ethernet Eth
+Engineering_Units EU
+Extension Ext
+Exception Exc
+Expiration Exponent Exp
+Field Fld
+Function Fnct Func
+Fraction Fract
+Frequency Freq
+Generate Gen
+Group Grp
+History Hist
+High Hi Low Lo
+High_Priority_Task HPT Low_Priority_Task LPT
+Hour Hr
+Impulse Imp
+Input In Output Out
+Initialization Initialize Init
+Instruction Instr
+Integrate Int
+Invert Inv
+Interrupt_Service_Routine ISR
+Index Ix
+Keyboard Kbd
+Length Len
+Limit Lim
+List Lst
+Magnitude Mag
+Mantissa Mss
+Manual Man
+Manufacture Mfg
+Maximum Max Minimum Min
+Mailbox Mbox
+Move Mov
+Message Msg
+Measure Meas
+Mask Msk
+Multiplication Mul
+Multiplex Mux
+Make Mk
+Negative Neg Positive Pos
+Number Num
+Neutral Neut
+Operation_System OS
+Optimize Opt
+Original Orig
+Overflow Ovf
+Package Pkg
+Parameter Param
+Performance Perf
+Period Per
+Phase Ph
+Position Pos
+Power Pwr
+Previous Prev
+Priority Prio
+Printer Prt
+Process Proc
+Product Prod
+Protocol Prot
+Program Prog
+Pointer Ptr
+Queue Q
+Quality Qlty
+Quarter Quar
+Reactive React
+Recall Rcl
+Rectangle Rect
+Read Rd Write Wr
+Ready Rdy
+Reference Ref
+Register Reg
+Request Req
+Reserve Resv
+Response Resp
+Return Rtn
+Reverse Revs
+Repeat Rpt
+Real_Time RT
+Receive Rx
+Sample Smp
+Scale_Factor SF
+Schedule Scheduler Sched
+Screen Scr
+Second Sec
+Segment Seg
+Select Sel
+Semaphore Sem
+Sequence Seq
+Server Svr
+Setting Set
+Signal Sig
+Seven-segments SS
+Sourse Src Destination Dst
+Statistic Status Stat
+Stack Stk
+Standard Std
+String Str
+Subtraction Sub
+Switch Sw
+Synchronize Synch
+Table Tbl
+Threshold Th
+Tick Tic
+Time Timer Tmr Tm
+Toggle Tgl
+Total Tot
+Trigger Trig
+Time_stamp TS
+Timeout TO
+Utility Util
+Value Val
+Vector Vect Vec
+Version Ver
+Variable Var
+Visible Vis
+Voltage Vol
+Watchdog Wdog

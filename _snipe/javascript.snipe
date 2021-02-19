@@ -1,0 +1,87 @@
+uss
+'use strict';
+
+co con cons conso consol console
+console.log(@ ;);
+
+al alert
+alert(@ ;);
+
+ty
+typeof(@ ;)
+
+confirm
+confirm(@ ;);
+
+prompt
+prompt(@ ;,@"";);
+
+l le let
+let @ ; = @;;
+
+if
+if (@ ;) {
+}
+
+ife
+if (@ ;) {
+  @ ;
+} else {
+  @ ;
+}
+
+ifef
+if (@ ;) {
+  @ ;
+} else if (@ ;) {
+  @ ;
+}
+
+ifefe
+if (@ ;) {
+  @ ;
+} else if (@ ;) {
+  @ ;
+} else {
+  @ ;
+}
+
+wh while
+while (@true;) {
+}
+
+fo for
+for (@ ;) {
+}
+
+sw switch
+switch (@ ;) {
+  case @ ;:
+    @ ;
+    break;
+  default:
+}
+
+case @ ;:
+  @ ;
+  break;
+
+fu
+function @ ;(@ ;) {
+  @/* code */;
+}
+
+fuexp
+let @ ; = function(){
+};
+
+
+re
+return
+
+cl class
+class @ ; {
+  constructor(){
+  }
+}
+

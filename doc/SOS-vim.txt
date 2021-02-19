@@ -1,0 +1,449 @@
+                           *SOS-vim.txt*
+                    -- -- -- -- -- -- -- --
+                  Quick Refernce For Vim and gVim
+                    -- -- -- -- -- -- -- --
+>
+      " Use a single editor well.  The editor should be an 
+        extension of your hand; make sure your editor is 
+          configurable, extensible, and programmable "
+<
+================================================================
+CONTENTS 
+§ 1. |SOS-about|
+§ 1. |SOS-help-your-self|
+§ 1. |SOS-file|
+§ 1. |SOS-move|
+§ 1. |SOS-edit|
+§ 1. |SOS-pattern-regex|
+§ 1. |SOS-text-objects|
+§ 1. |SOS-fold|
+§ 1. |SOS-buffer-tab-window|
+§ 1. |SOS-register-macro|
+§ 1. |SOS-command-line|
+§ 1. |SOS-useful-keys|
+§ 1. |SOS-completion|
+§ 1. |SOS-tags|
+§ 1. |SOS-How2|
+	§ 1.1. |SOS-How2_write-vim-help-doc|
+	§ 1.1. |SOS-How2_create-new-filetype| 
+	§ 1.1. |SOS-How2_enter-any-character| 
+	§ 1.1. |SOS-How2_use-spell-check| 
+
+================================================================
+						     *SOS-about*
+In vim, some keys has same effect, on this doc, I only pick 
+up most memorable key. Remember: think twice, do once !
+VIM-MODE
+vim-modes mode-switching~
+Normal-mode                <Esc> <C-c> <C-[> <C-o>
+Insert-mode                i gi a <Insert>
+Visual-mode                v gv
+Visual-mode-linewise       V
+Visual-mode-blockwise      <C-v>
+Select-mode                gh
+Select-mode-linewise       gH
+Select-mode-blockwise      g<C-v>
+Replace-mode               R r
+Virtual-replace-mode       gR gr
+Command-line mode          :
+Ex-mode                    Q gQ
+ABBR.
+aka. = also know as
+i.e. = that is, viz.
+e.g. = for example
+etc. = ...
+
+================================================================
+					    *SOS-help-your-self*
+help how-to tips ~
+find what you need with command `:help`, `:h :help` , `:h how-to` , `:h tips`
+find option with `:h '{option-name}'`
+find key with `:h {mode_}^a`
+
+================================================================
+						      *SOS-file*
+QUIT
+ quit: `:q`
+ quit and save: `:x` , `ZZ`
+ quit and save all: `:xa` , `ZZ`
+ quit without save: `:q!`, `ZQ`
+OPEN
+ open in current buffer: `:e  {file}`
+ split horizontally    : `:sp {file}`
+ split vertically      : `:vs {file}`
+SAVE
+ save current buffer: `:w`
+ save all buffer: `:wa`
+ save as new file: `:saveas {file}`
+ NOTE: when you write file and switch to another buffer, all
+previous change will lost, then you cannot undo !!!
+RENAME
+ `:call rename({oldname},{newname}) | e {newname}`
+DELETE
+ `:call delete({filename})`
+ NOTE:the buffer will still open , rewrite to undo delete
+VIEW OLDFILES
+ `:browse oldfiles` then press "q" and select your file
+
+================================================================
+						      *SOS-move*
+list pair of move command
+LINE
+  line begin/end (hard): 0  $
+  line begin/end (soft): _  g_
+WORD
+  word forward  (begin/end): w  e  W  E
+  word backward (begin/end): b ge  B gE
+DISPLAY
+  display move: g0 g^ gm gM gj gk g$
+SENTENCE PARAGRAPH SECTION 
+  sentence , paragraph, section 
+    (forward/backward): )  (  }  {  ]]  [[
+SCROLL
+  to: zz zt zb
+  line scroll:  <C-E> <C-Y>
+  page scroll:  <C-F> <C-B>
+  page scroll(half):  <C-D> <C-U>
+GOTO ANYWHERE
+  go to N'th line: [N]gg [N]G :[N]
+  go to N'th column: [N]|
+  go to N% file: [N]%
+JUMP
+jump-motions~
+  char jump: f{char} F{char} t{char} T{char} ; ,
+  cursor jump: H M L
+  keyword jump: ]i [i ]I [I
+  definition jump: ]d [d ]D [D
+  jump to alternate buffer: <C-6> <C-^>
+  jump in change list: g; g,
+  jump in jump list: <C-O> <C-I>
+  :psearch
+MARK
+mark-motions~
+  :marks
+  mark a mark: m{a-zA-Z}
+  auto set mark position:
+    `'` prev jump mark position
+    `^` exit insert position
+    `"` exit buffer position
+    `.` last modification
+    `[` last change/yanked position start
+    `]` last change/yanked position end
+    `<` last selected position start
+    `>` last selected position end
+SEARCH
+  search
+    buffer
+      forward:  /{pattern}/{offset}
+      backward: ?{pattern}?{offset}
+      repeat: n  N
+      current word: *  #  g* g#
+      word define: gd gD
+    file
+      file name in 'path': ` :find {file}`
+      file text:
+        `:vimgrep /{pattern}/ {file}`
+        `:lv /{pattern}/ {file}`
+  NOTE: you can use ":noh" stop highlight for the 'hlsearch'
+        option, or execute `:let @/=''`
+
+================================================================
+						      *SOS-edit*
+UNDO
+ :undolist
+ :later 
+ :earlier
+ undo and redo: u <C-R>
+DEL
+ delete char (cursor right/left): ["x]x ["x]X
+INSERT
+ insert begin to
+   cursor positon (left/right) : i  <insert> a
+   line start/end: I  A
+   first column: gI
+   line next/prev: o  O
+   last insert mode stopped position: gi
+COPY(YANK) CUT CNANGE SUBST PASTE
+  :reg
+  select register 'x', with motion range text
+    copy  : ["x]y{motion}
+    cut   : ["x]d{motion}
+    change: ["x]c{motion}
+    subst : ["x]s
+            ["x]S
+  pair of command
+            :{range}d [x]
+	    :{range}y [x]
+            :{range}c [x]
+            :{range}s [x]
+  linewise
+     NOTE: the "Y" works like "yy", for more logical
+           use ":map Y y$".
+     yank lines(not to end): ["x]yy ["x]Y
+     delete lines (to end) : ["x]dd ["x]D
+     change lines (to end) : ["x]cc ["x]C
+  paste from register 'x':  
+    NOTE: you can paste with <MiddleMouse>
+    (before/after): ["x]p  ["x]P
+SWITCH CASE
+  NOTE: in v-mode just use "U" and "u"
+  uppercase: gU{motion} gUU
+  lowercase: gu{motion} guu
+  swichcase: g`~`{motion} g`~~`
+ENCODE ROT13
+   g? g??
+ADD OR SUBTRACT NUMBER
+CTRL-A CTRL-X~
+  add from a number:      <C-A>
+  subtract from a number: <C-X>
+FORMAT
+formatting~
+  format text : gq{motion} gqq
+  auto format line through external program:
+    ={motion} [count]== v_=
+  shift line indent level:
+    >{motion} <{motion} [count]>> [count]<<
+  align text:
+    :[range]center [width]
+    :[range]right  [width]
+    :[range]left   [indent]
+  join line:
+    join with space insert: J
+    join with no space insert: gJ
+REPLACE MODE
+  use "R" enter replace mode. use "r" replace once
+REPLACE AND SUBSTITUTE
+substitute~
+    `:[range]s/{pattern}/{string}/[flags] [count]`
+  useful example for substitute:
+    merge multiple blank line:  `:%s/^\n$//g`
+    delete non-breakable space char:  `:%s/\%u00a0//g`
+    first letter uppercase:  `:s/\<./\U&/g`
+    remove trailing space: `:%s/\s\+$//e`
+
+================================================================
+					     *SOS-pattern-regex*
+pattern-searches~
+
+================================================================
+					 *SOS-buffer-tab-window*
+A buffer is the in-memory text of a file.
+A window is a viewport on a buffer.
+A tab page is a collection of windows.
+  "%" current buffer name
+  "#" alternate buffer name
+  :bufdo :tabdo :windo 
+BUFFER
+buffers~
+  :ls!
+TAB
+tabpage~
+  next tab: [count]gt
+  prev tab: [count]gT
+WINDOW
+window CTRL-W~
+  most window control command begin with <C-W>:
+    with "h","j","k","l","t","b": jump to L D U R T B window
+    with "H","J,"K","L","T","B": move window to L D U R T B
+    with "|","_","<",">","+","-": resize window
+    with "r","R": rotate windows
+    with "x": exchange current window with next one
+    with "w": cycle move cursor to next window
+    with "c": same as `:close`
+    with "o": same as `:only`
+    with "p": go to preview window
+    with "=": make all windows equally high and wide
+    with "f": edit file name under cursor in split window
+    with "]": use split window for tag view
+    with "}": use preview window for tag view
+    with "i": open a new window, with the cursor on the first 
+              line that contains the keyword under the cursor.
+    with "d": open a new window, with the cursor on the first
+              macro definition 
+    for full list command, please see `:h ^w`
+
+================================================================
+					      *SOS-text-objects*
+TEXT OBJECT
+text-objects~
+  execute {operator} in {motion} range
+    around: {operator}a{motion}
+    inner: {operator}i{motion}
+  the "operator" could be:
+     w word W WORD
+     s sentence
+     p paragraph
+     t html tags
+  e.g. use `dip` delete blank line between paragraph 
+
+================================================================
+						      *SOS-fold* 
+fold-commands~
+  fold
+    create : zf{motion}
+    delete (recursively): zd zD
+    eliminate all: zE
+  fold
+    open   (recursively): zo zO
+    close  (recursively): zc zC
+    toggle (recursively): za zA
+    close all: zM
+    open all: zR
+    no fold: zn
+    invert: zi
+  fold
+    move to the start/end of fold: [z  ]z
+    move to the the next/prev fold: zj zk
+
+================================================================
+					    *SOS-register-macro*
+REPEAT
+single-repeat~
+  use "." repeat last change
+multi-repeat~
+  the global command:
+    `:g/{/ .+1,/}/-1 sort`
+    `:g/^$/d`
+REGISTER
+complex-repeat~
+  macro
+    start record macro "x": qx
+    stop record macro: q
+    call macro "x": @x
+    call last used macro: @@
+  use register
+    :reg
+    i_<C-r>{reg}
+    c_<C-r>{reg}
+  special registers
+    `"` unnamed reg(last used reg)
+    `.` last insert text reg
+    `%` current file name reg
+    `#` alternate file name reg
+    `:` last cmd reg
+    `/` last search reg
+    `*` clipboard reg
+    `+` clipboard reg
+    `_` black hole reg
+    NOTE: use `"{reg}_` clear register content
+  append text to a register
+    `:let @* .= expression`
+
+================================================================
+					      *SOS-command-line*
+  open command-line window: q: q/ q?
+  list matchs: <C-D>
+  execute command: <CR> <C-M> <C-J>
+  insert object under cursor:
+    Filename <C-F>
+    Filename (expanded) <C-P>
+    Word <C-W>
+    WORD <C-A>
+    line <C-L>
+
+  some useful command
+    :!
+    :sh
+    :his
+    :earlier 1m
+    :later
+    :%!xxd 
+    :%!xxd -r
+    :sort r /regex/
+    :com
+    :map 
+    :list
+    :set list!
+    :set bomb
+    :match {group} /pattern/
+    :vimdiff {file1} {file2}
+    !{motion}{filter}
+    
+   vim start commands
+>
+	$vim -t tag 
+ 	$vim +<lnum> 
+	$vim --clean --startuptime s.log 
+	$vim -h
+<
+================================================================
+					       *SOS-useful-keys*
+go to file: gf <C-W>f 
+go to other end fo highlight text: v_o v_O
+vertically split alternate buffer: `:vs#`
+print ascii value: ga
+
+================================================================
+						 *SOS-completion*
+ins-completion~
+  complete keywords in 'complete' use <C-N>, <C-P>
+  other complete start with <C-X>
+    <C-L> Whole lines 
+    <C-N> keywords in the current file
+    <C-K> keywords in 'dictionary'
+    <C-T> keywords in 'thesaurus', thesaurus-style
+    <C-I> keywords in the current and included files
+    <C-]> tags
+    <C-F> file names
+    <C-D> definitions or macros
+    <C-V> Vim command-line
+    <C-U> User defined completion
+    <C-O> omni completion
+      s   Spelling suggestion `:set spell`
+
+================================================================
+						      *SOS-tags*
+ctags~
+1. install "ctags"
+2. run "ctags", generate a file called "tags"
+3. check your 'tags' option, ensure the "tags" file in it's
+   path.
+tags-and-searches~
+  :tselect
+  :ptag
+  tags jump:      <C-]> , <C-LeftMouse>
+  tags jump back: <C-T> , <C-RightMouse>
+  
+
+================================================================
+The how2 section                                        *SOS-How2*
+					   many tricks about vim
+
+----------------------------------------------------------------
+				   *SOS-How2_write-vim-help-doc*
+SYTANX
+head      : capitalized word without any indent
+delimiter : ==== or ----
+example   : word wrapped by >< , at least indent one space or tab
+tag       : word inside ** (must unique)
+ref       : word inside || (use same tag name)
+refs      : put `~` to line end
+command   : inside `` show literal char
+key       : word inside <>
+see details in  `$VIMRUNTIME/syntax/help.vim`
+GENERATE HELP TAGS
+for shorts: `:helpt ALL`
+
+----------------------------------------------------------------
+				  *SOS-How2_create-new-filetype* 
+put line to "ftdetect/mine.vim" 
+>
+ au BufRead,BufNewFile *.mine set filetype=mine
+<
+
+----------------------------------------------------------------
+				  *SOS-How2_enter-any-character*
+i_CTRL-V_digit digraph~
+  in v-mode or c-mode 
+    <C-V> input keycode
+    <C-Q> same as <CV>
+    <C-K> printable non-ASCII characters
+    <alt> + any char, e.g. <alt> + 6 print  ¶
+
+----------------------------------------------------------------
+				      *SOS-How2_use-spell-check*
+spell~
+  `:set spell`, then use "z=" get suggestions.
+
+
+" vim:ft=help:tw=64:noma:
