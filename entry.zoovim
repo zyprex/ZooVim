@@ -2,13 +2,13 @@
 " File: entry.zoovim
 " Author: zyprex
 " Description:  example .vimrc for zoovim
-" Last Modified: February 18, 2021
+" Last Modified: March 05, 2021
 " ======================================================================
 " Required:{{{
 if &cp |set cp!|endif
 filetype plugin indent on
 syntax enable
-set rtp+=~/.vim
+set rtp+=~/.vim,~/.vimlocal
 "colorscheme ron
 colorscheme stray_volcano
 call bar#Highlight()
@@ -31,8 +31,10 @@ endif
 "}}}
 
 " DangerZone:{{{
-set autoread backup backupdir=~/.cache/.vimbkp,. undofile undodir=~/.cache/.vimundo,.
+set autoread
 "autowriteall
+set backup backupdir=~/.cache/vim/backup,$TMP/vim/backup.
+set undofile undodir=~/.cache/vim/undo,$TMP/vim/backup.
 "set autochdir gdefault hidden mouse=a scrolloff=99 sidescroll=1 sidescrolloff=1 shiftround browsedir=buffer
 "}}}
 
@@ -77,10 +79,13 @@ aug END
 " }}}
 
 " Keymaps:{{{
-nnoremap <BS> :cd ..<CR>:pwd<CR>
-nnoremap <C-BS> :exe 'cd ' expand('%:h')<CR>:pwd<CR>
+nnoremap \<BS> :cd ..<CR>:pwd<CR>
+nnoremap \<CR> :exe 'cd ' expand('%:h')<CR>:pwd<CR>
+nnoremap \[ :lcd ..<CR>:pwd<CR>
+nnoremap \] :exe 'lcd ' expand('%:h')<CR>:pwd<CR>
 " cancel search highlight
-nnoremap \ :noh\|diffupdate\|redraw\|pwd<CR>
+nnoremap \  :noh\|pwd<CR>
+nnoremap \\ :noh\|pwd<CR>
 " always enter improved Ex-mode
 nnoremap Q gQ
 " always enter virtual Replace-mode
@@ -95,20 +100,15 @@ nnoremap [l :lprevious<CR>
 nnoremap ]l :lnext<CR>
 nnoremap [t :tprevious<CR>
 nnoremap ]t :tnext<CR>
-nnoremap <leader>[ :cclose<CR>
-nnoremap <leader>] :<C-R>=len(getqflist())<CR>copen<CR>
-nnoremap <leader>{ :lclose<CR>
-nnoremap <leader>} :<C-R>=len(getloclist(0))<CR>lopen<CR>
-nnoremap <leader>\ :pclose<CR>
+nnoremap [<space>c :cclose<CR>
+nnoremap ]<space>c :<C-R>=len(getqflist())<CR>copen<CR>
+nnoremap [<space>l :lclose<CR>
+nnoremap ]<space>l :<C-R>=len(getloclist(0))<CR>lopen<CR>
+nnoremap [<space>p :pclose<CR>
 " auto-pair
-inoremap `` ``i
-inoremap %% %%i
-inoremap '' ''i
-inoremap "" ""i
-inoremap () ()i
-inoremap [] []i
-inoremap {} {}i
-inoremap <> <>i
+for i in split("`` %% '' \"\" () [] {} <>")
+  exe 'inoremap '.i.' '.i.'i'
+endfor
 inoremap {<CR> {}i<CR>==O
 " line move up/down
 nnoremap <C-k> :m-2<CR>==
@@ -124,11 +124,11 @@ vnoremap > >gv
 cnoremap w!! w !sudo tee % >/dev/null
 nnoremap s <NOP>
 let mapleader='s'
-nnoremap <leader>w :up<CR>
+nnoremap <leader>w :update<CR>
 nnoremap <leader>a <C-^>
 "let g:netrw_banner=0 let g:netrw_liststyle = 2 let g:netrw_list_hide= '.*\.swp$' let g:netrw_sort_by = "exten"
 "let g:netrw_sizestyle = "H" let g:netrw_winsize = 20 let g:netrw_special_syntax = 1 file operation
-"nnoremap <leader>E :Sexplore<CR> 
+"nnoremap <leader>E :Sexplore<CR>
 " n-mode paste copy
 nnoremap <leader>p "+p
 nnoremap <leader>P "+P
@@ -138,8 +138,9 @@ nnoremap <leader>y "+y
 xnoremap <leader>p "+p
 xnoremap <leader>P "+P
 xnoremap <leader>y "+y
-" s-mode paste
-snoremap <C-y> gv"+p
+" i-mode s-mode paste
+inoremap <C-Y> <C-O>"+p
+snoremap <C-Y> gv"+p
 " append to clipboard reg
 xnoremap say y:let @+ .= @0<cr>
 " Execute current line or current selection as Vim EX commands.
@@ -191,7 +192,8 @@ command! HunterRun  call hunter#mapAll()
 command! HunterStop call hunter#unmapAll()
 
 com! -nargs=1 -complete=command UCmd call unicorn#cmd('<args>')
-com! -nargs=1 -complete=shellcmd URedir call unicorn#redir('<args>')
+com! UGitAdd call unicorn#git('add '.expand('%'))
+com! UGitRestore call unicorn#git('restore --staged '.expand('%'))
 com! UGitStatus call unicorn#git('status')
 com! UGitReflog call unicorn#git('reflog')
 com! UGitDiff call unicorn#git('diff', 'set ft=diff')
@@ -230,18 +232,14 @@ com! TaskLog call task#log()
 com! -nargs=+ -complete=customlist,cat#git G !git <args>
 com! -nargs=+ -complete=customlist,cat#pandoc Pandoc !pandoc <args>
 
-inoremap<expr> <Tab> ape#do()
-com! ApeEnable call ape#enable(1)
-com! ApeDisable call ape#enable(0)
-let g:ape_min_trig = 2
-let g:ape_chains = {
-      \"vim":['vcmd','prev','c-p','file','line'],
-      \}
-"use `autocmd` set default method in buffer, for example:
-" aug ApeDefaultMethod
-  " au!
-  " au FileType vim let b:ape_default_method='vcmd'
-" aug END
+inoremap <expr> <Tab>   ape#do(0)
+inoremap <expr> <S-Tab> ape#do(1)
+com! ApeEnablePop call ape#enablePopMenu(1)
+com! ApeDisablePop call ape#enablePopMenu(0)
+aug ApePopMenu
+  au!
+  au CursorHoldI * call ape#popMenu()
+aug END
 "}}}
 
 "Experimental:{{{
@@ -258,14 +256,16 @@ let g:fe_group_maps = [
       \[ "f", "fd", "FeFd" ],
       \[ "r", "rg", "FeRg" ],
       \[ "a", "ag", "FeAg" ],
-      \[ "t", "ctags", "FeCtags ".expand('%')],
+      \[ "t", "ctags", "FeCtags -R"],
       \]
-let g:cue_group_maps += [[ "u","unicorn", "call misc#cue(g:uni_group_maps)" ]]
+let g:cue_group_maps += [[ ";","unicorn", "call misc#cue(g:uni_group_maps)" ]]
 let g:uni_group_maps = [
       \[ "f", "file", "UFileList" ],
       \[ "g", "git", "call misc#cue(g:uni_group_maps_git)" ],
       \]
 let g:uni_group_maps_git = [
+      \[ "a", "add", "UGitAdd" ],
+      \[ "R", "restore", "UGitRestore" ],
       \[ "b", "branch", "UGitBranch" ],
       \[ "d", "diff", "UGitDiff" ],
       \[ "g", "graph", "UGitGraph" ],
@@ -273,7 +273,7 @@ let g:uni_group_maps_git = [
       \[ "r", "reflog", "UGitReflog" ],
       \[ "s", "status", "UGitStatus" ],
       \]
-let g:cue_group_maps += [[ "t","toggle", "call misc#cue(g:tog_group_maps)" ]]
+let g:cue_group_maps += [[ "'","toggle", "call misc#cue(g:tog_group_maps)" ]]
 let g:tog_group_maps =  [
       \[ "w","wrap", "call misc#toggler('wrap')"],
       \[ "p","paste", "call misc#toggler('paste')"],
@@ -288,4 +288,4 @@ let g:tog_group_maps =  [
       \]
 "}}}
 
-" vim:fen:fdm=marker:nowrap:ts=2:fen
+" vim:ft=vim:fen:fdm=marker:nowrap:ts=2

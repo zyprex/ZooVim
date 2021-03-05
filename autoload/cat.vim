@@ -16,6 +16,9 @@ func! cat#git(A,C,P) "{{{
   "*{branch}
   if a:A =~# '\*\S*$' 
     let list = filter(systemlist('git branch --all'),"v:val =~ a:A[1:]")
+    call map(list,'substitute(v:val,"* ","","g")')
+    call map(list,'substitute(v:val,"/"," ","g")')
+    call map(list,'substitute(v:val,"\\s*remotes\\s*","","g")')
   "@{commit_id}
   elseif a:A =~# '@\S*$'
     let list = filter(systemlist('git log --pretty=format:"%h"')
@@ -45,13 +48,11 @@ func! cat#git(A,C,P) "{{{
     call filter(list,"v:val =~ '^'.a:A")
   "{file}
   else
-    let list = map(readdir('.',{n->n!~'^\.git$'})
-          \,'isdirectory(v:val)?v:val."/":v:val')
+    let list = glob("**",1,1)
     call filter(list,"v:val =~ '^'.a:A")
   endif
   return list
 endfunc "}}}
-
 func! cat#pandoc(A,C,P) "{{{
   let list = []
   if a:A =~# '-\S*$'

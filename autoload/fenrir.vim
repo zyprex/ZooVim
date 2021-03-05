@@ -16,10 +16,11 @@
 "   ctrl+[ / <ESC> / ctrl+c    exit
 "   ctrl+j / ctrl+k  select line down/up
 "   ctrl+n / ctrl+p  recall next/previous input
-"   ctrl+h / <BS>    delete one char
-"   ctrl+w           delete one word
+"   ctrl+h / <BS>    delete a char
+"   ctrl+w           delete a word
 "   ctrl+u           delete whole line
 "   ctrl+]           toggle buffer wrap status
+"   ctrl+r {x}       insert register 'x' content
 "   ctrl+q           exit but keep buffer
 "   ctrl+e           enter line edit mode (bind emacs-like keys)
 " [ on buffer ]
@@ -42,7 +43,7 @@
 " rg: ripgrep
 " ag: sliver searcher
 " universal ctags: index tags
-" Last Modified: February 10, 2021 }}}
+" Last Modified: March 03, 2021 }}}
 " ======================================================================
 
 set acd&
@@ -91,23 +92,15 @@ endfunc "}}}
 func! s:filterAg(str) "{{{
     return systemlist(s:ag_cmd.' '.a:str)
 endfunc "}}}
-func! s:filterCtags(str) "{{{
+func! s:filterLine(rx) "{{{
   let hs = copy(s:haystack)
-  let needle = get(s:fe_state,"prefix","").a:str
-  call filter(hs,'v:val =~# needle')
+  call filter(hs,'v:val =~# a:rx')
   return hs
 endfunc "}}}
-func! s:filterLine(str) "{{{
+func! s:filterPath(rx) "{{{
   let hs = copy(s:haystack)
-  let needle = get(s:fe_state,"prefix","").a:str
-  call filter(hs,'v:val =~# needle')
-  return hs
-endfunc "}}}
-func! s:filterPath(str) "{{{
-  let hs = copy(s:haystack)
-  let needle = get(s:fe_state,"prefix","").a:str
-  let s:str = a:str
-  call sort(filter(hs,'v:val =~# needle'),"s:fnameFirst")
+  let s:str = a:rx[len(get(s:fe_state,"prefix","")):]
+  call sort(filter(hs,'v:val =~# a:rx'),"s:fnameFirst")
   unlet s:str
   return hs
 endfunc "}}}
@@ -149,6 +142,18 @@ func! s:keybindInWin(kb) "{{{
   nnoremap<buffer><silent> <C-C> :call fenrir#Run(get(g:fenrir_hist_input,-1,''))<CR>
   return
 endfunc "}}}
+func! s:normalizeRx(str) "{{{
+  let p = get(s:fe_state,"prefix","")
+  if s:fe_state.name =~ '\(rg\|ag\)'
+    let p = ""
+  endif
+  let nrx = p . a:str
+  if a:str[0] == '^'
+    let nrx = substitute(
+          \ substitute(p,'>','',''),'\d\+','\=submatch(0)+1','').a:str[1:]
+  endif
+  return nrx
+endfunc "}}}
 "Fe MAIN: ->create buffer ->open buffer ->set buffer property
 "    ->match content ->fill buffer content ->render result
 func! s:saveHist(str) "{{{
@@ -160,7 +165,8 @@ func! s:bufFill(str) "{{{
   call s:renderPrefixClear()
   let p = get(s:fe_state,"prefix","")
   if match(p,'%>') != -1
-    call s:renderPrefix( substitute(p,">","<","") )
+    let rx = substitute(p,'\d\+','\=submatch(0)+1','')
+    call s:renderPrefix( substitute(rx,">","<","") )
   else
     call s:renderPrefix(p)
   endif
@@ -168,12 +174,8 @@ func! s:bufFill(str) "{{{
     call s:hlMatchClear()
     call setbufline(s:fe_bname,1,s:haystack)
   else
-    if match(p,'%>') != -1
-      call s:hlMatch(p.a:str)
-    else
-      call s:hlMatch(a:str)
-    endif
-    let lines = call(s:fe_state.filter,[a:str])
+    call s:hlMatch(s:normalizeRx(a:str))
+    let lines = call(s:fe_state.filter,[s:normalizeRx(a:str)])
     call setbufline(s:fe_bname,1,lines)
   endif
 endfunc "}}}
@@ -205,6 +207,7 @@ func! s:FenrirSeek(query) "{{{
     elseif c=="\<C-W>"|let str=str[:match(str,'\s*\S\+\s*$')-1]
     elseif c=="\<C-U>"|let str=''
     elseif c=="\<C-]>"|setl wrap!
+    elseif c=="\<C-R>"|let str .= getreg(nr2char(getchar()))
     elseif c=="\<C-E>"|redraw
       cnoremap<buffer> <C-A> <Home>
       cnoremap<buffer> <C-B> <Left>
@@ -306,7 +309,7 @@ endfunc "}}}
 "Lines:    ->match:line ->prefix:lnum  ->handle:line_jmp line_jmp_out line_mod
 func! fenrir#Lines(...) "{{{
   let prefix_len = len(line('$'))
-  let prefix = '\%>'.(prefix_len+3).'c'
+  let prefix = '\%>'.(prefix_len+2).'c'
   let s:haystack = []
   for i in range(1,line('$'))
     let pre = printf("|%".prefix_len."s|",i)
@@ -367,7 +370,7 @@ func! fenrir#Commands(...) "{{{
         \}
   call fenrir#Run(join(a:000))
 endfunc "}}}
-"Ex_fd:    ->match:Fd                ->handle:file_in file_out file_a
+"Ex_fd:    ->match:Fd             ->handle:file_in file_out file_a
 func! fenrir#Fd(...) "{{{
   let s:haystack = systemlist(s:fd_cmd.' '.join(a:000))
   let s:fe_state = {
@@ -425,7 +428,7 @@ func! fenrir#Ctags(...) "{{{
   let s:haystack = systemlist(s:ctags_cmd.' '.join(a:000))
   let s:fe_state = {
         \"name":"Ctags",
-        \"filter":"s:filterCtags",
+        \"filter":"s:filterLine",
         \"kbCmd": {
           \"\<C-M>":"fenrir#tags_in",
           \"\<Tab>":"fenrir#tags_a",
@@ -480,7 +483,7 @@ endfunc "}}}
 func! fenrir#line_jmp(line) "{{{
   let lnum = matchstr(a:line, '\d\+')
   let start = match(a:line,'|',1)
-  let col = match(a:line,s:fe_state.prefix.g:fenrir_hist_input[-1]) - start
+  let col = match(a:line, s:normalizeRx(g:fenrir_hist_input[-1])) - start
   call setpos('.', [0, lnum, col,0])
 endfunc "}}}
 func! fenrir#line_mod(line) "{{{

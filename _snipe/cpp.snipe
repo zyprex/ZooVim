@@ -4,19 +4,19 @@ cppio
 #include <iostream>
 
 cl
-class @ ; {
-    @ ;
+class   {
+     
 };
 
 
 us
-using namespace @std;;
+using namespace std;
 
 cin
-cin>>@ ;;
+cin>> ;
 
 cout
-cout<<@ ;<<endl;
+cout<< <<endl;
 
 
 

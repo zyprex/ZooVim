@@ -1,82 +1,76 @@
 
 header
 " ======================================================================
-" File: @=echo expand('%:t');
+" File: =echo expand('%:t')
 " Author: zyprex
-" Description: @ ;
-" Last Modified: @=echo strftime("%B %d, %Y");
+" Description:  
+" Last Modified: =echo strftime("%B %d, %Y")
 " ======================================================================
 
 once
-if exists('g:loaded_@=echo expand("%<");') || &cp || version < @=echo v:version;
+if exists('g:loaded_=echo expand("%<")') || &cp || version < =echo v:version
     finish
 endif
 let g:loaded_`echo expand("%<")` = 1
 
-fu func function
-function! @FuncName;() "{{{
-endfunction "}}}
-
-fus
-func! @Func;() "{{{
+fu fun func funct function
+func! Func() "{{{
 endfunc "}}}
 
 fcm
 "----------------------------------------
-" Name:  @ ;
+" Name:   
 " Description:
 " Requires:
 " Type: function
 "---------------------------------------
 
 fo
-for @needle; in @haystack;
-  @code;
+for needle in haystack
+  code
 endfor
 
 for
-for @needle; in range(@ ;)
-  @code;
+for needle in range( )
+  code
 endfor
 
 wh
-while @(1);
+while (1)
 endwhile
 
-
 if
-if @  ;
+if   
 endif
 
 ef
-elseif @ ;
-  @ ;
+elseif  
+   
 
 el
 else
-  @ ;
+   
 
 re
-return@;
+return
 
 tr try
 try
-  @ ;
+   
 catch /^Vim\%((\a\+)\)\=:E/ "all vim error
   echo v:exception
 endtry
 
 ex?
-if @!;exists(@ ;)
+if !exists( )
 endif
 
 l let
-let @ ; = @ ;
-
+let   =  
 
 eof
 " vim:fen:fdm=marker:nowrap:ts=2:
 
 ec
-echo @;
+echo 
 

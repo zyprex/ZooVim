@@ -1,78 +1,79 @@
-uss
+
+us
 'use strict';
 
 co con cons conso consol console
-console.log(@ ;);
+console.log( );
 
 al alert
-alert(@ ;);
+alert( );
 
 ty
-typeof(@ ;)
+typeof( )
 
 confirm
-confirm(@ ;);
+confirm( );
 
 prompt
-prompt(@ ;,@"";);
+prompt( ,"");
 
 l le let
-let @ ; = @;;
+let   = ;
 
 if
-if (@ ;) {
+if ( ) {
 }
 
 ife
-if (@ ;) {
-  @ ;
+if ( ) {
+   
 } else {
-  @ ;
+   
 }
 
 ifef
-if (@ ;) {
-  @ ;
-} else if (@ ;) {
-  @ ;
+if ( ) {
+   
+} else if ( ) {
+   
 }
 
 ifefe
-if (@ ;) {
-  @ ;
-} else if (@ ;) {
-  @ ;
+if ( ) {
+   
+} else if ( ) {
+   
 } else {
-  @ ;
+   
 }
 
 wh while
-while (@true;) {
+while (true) {
 }
 
 fo for
-for (@ ;) {
+for ( ) {
 }
 
 sw switch
-switch (@ ;) {
-  case @ ;:
-    @ ;
-    break;
+switch ( ) {
+  case  :
+     
+    break
   default:
 }
 
-case @ ;:
-  @ ;
+case  :
+   
   break;
 
 fu
-function @ ;(@ ;) {
-  @/* code */;
+function  ( ) {
+  /* code */
 }
 
 fuexp
-let @ ; = function(){
+let   = function(){
 };
 
 
@@ -80,7 +81,7 @@ re
 return
 
 cl class
-class @ ; {
+class   {
   constructor(){
   }
 }

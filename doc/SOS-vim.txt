@@ -244,7 +244,8 @@ WINDOW
 window CTRL-W~
   most window control command begin with <C-W>:
     with "h","j","k","l","t","b": jump to L D U R T B window
-    with "H","J,"K","L","T","B": move window to L D U R T B
+    with "H","J,"K","L": move window to L D U R
+    with "T": move window to new tab page
     with "|","_","<",">","+","-": resize window
     with "r","R": rotate windows
     with "x": exchange current window with next one

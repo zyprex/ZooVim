@@ -1,31 +1,33 @@
 >> html.snipe
 
 l line -
-@=for liner in range(30)|echon '-'|endfor; @;
+=for liner in range(30)|echon '-'|endfor
+
+
 
 co code
-```@;
+```
 ```
 
 pi pic
-![@ ;](@link;@ "title";)
+![ ]( )
 
 ur url link,link
-[@name;](@link;@ "title";)
+[ ]( )
 
 fn footnote
-[@name;][@ref;]
-[@ref;]: @link;
+[ ][ ]
+[ ]:  
 
 tb table
-|@      ;|@      ;|
+| | |
 |:---  |:---  |
-|@      ;|@      ;|
+| | |
 
 
 di diff difftxt
 ```
-@;
+ 
 + add
 - del
 ! och
@@ -33,5 +35,5 @@ di diff difftxt
 ```
 
 sc
-{{<@ ;>}}
+{{<>}}
 

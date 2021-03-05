@@ -1,0 +1,9 @@
+
+time1
+=echo strftime("%y-%m-%d %a %T")
+
+time2
+=echo strftime("%B %d, %Y")
+
+
+

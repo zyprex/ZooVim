@@ -8,13 +8,15 @@
 "  , mutiple files split in space, if you don't want this function,
 "  keep the first line blank.
 "  [ placeholder ]
-"  start with '@' end with ';', the '@;' may not work fine in some
-"  occasion, I encourage you to use '@ ;'. if you want to literal '@', ';'
+"  how to type  ? <Ctrl+V><Ctrl+[>
+"  how to type  ? <Ctrl+V><Ctrl+]>
+"  start with '' end with '', the '' may not work fine in some
+"  occasion, I encourage you to use ''. if you want to literal '', ''
 "  , use '\' to escape them.
 "  placeholder will be moved when you triger a snippet expand.
 "  [ eval vim expression ]
-"  use '@=<expression>;' to yield '@<result>;'
-"  e.g. before '@=echo 123;' after '@123;'
+"  use '=<expression>' to yield '<result>'
+"  e.g. before '=echo 123' after '123'
 "  [ recommend configure ]
 " let g:snipe_dir = '~/.vim/_snipe'
 " inoremap<silent> <C-E> :call snipe#fly()<CR>
@@ -39,6 +41,9 @@ let s:keyword = ''
 let s:partA = ''
 let s:partB = ''
 let s:anchor_mode = 'gh'
+let s:start_eval_sym = '='
+let s:start_anchor_sym = ''
+let s:stop_anchor_sym = ''
 "Trigger: -> getWD
 func! s:getWD() "{{{
   let line = getline('.')
@@ -123,8 +128,8 @@ func! s:evalString(k,v) "{{{
   let p1 = -1
   let p2 = -1
   while(1)
-    let p1 = match(string,'@=',p1+1)
-    let p2 = match(string,';',p2+1)
+    let p1 = match(string,s:start_anchor_sym.s:start_eval_sym,p1+1)
+    let p2 = match(string,s:stop_anchor_sym,p2+1)
     if p1 == -1 || p2 == -1
       break
     endif
@@ -141,12 +146,12 @@ func! s:clrAnchor(k,v) "{{{
   let str = ' '.a:v
   let p1 = -1
   let p2 = -1
-  let p1 = match(str,'@',p1+1)
-  let p2 = match(str,';',p2+1)
+  let p1 = match(str,s:start_anchor_sym,p1+1)
+  let p2 = match(str,s:stop_anchor_sym,p2+1)
   while p1 != -1 && p2 != -1
     let str = str[:p1-1] . str[p1+1:p2-1] . str[p2+1:]
-    let p1 = match(str,'@',p1+1)
-    let p2 = match(str,';',p2+1)
+    let p1 = match(str,s:start_anchor_sym,p1+1)
+    let p2 = match(str,s:stop_anchor_sym,p2+1)
   endwhile
   "beign of line shift
   return str[1:]
@@ -159,8 +164,8 @@ func! s:genJmpList() "{{{
   let b:snipe_jmp_list = []
   for i in range(len(tmp))
     let str = tmp[i]
-    let p1 = match(str,'@',p1+1)
-    let p2 = match(str,';',p2+1)
+    let p1 = match(str,s:start_anchor_sym,p1+1)
+    let p2 = match(str,s:stop_anchor_sym,p2+1)
     let cnt = 0
     while p1 != -1 && p2 != -1
       let lnum = base + i
@@ -170,8 +175,8 @@ func! s:genJmpList() "{{{
       let col = p1 - cnt*2 - s:countEscape(str[:p1-1])
       let len = p2-p1-2
       let b:snipe_jmp_list += [[lnum,col,len]]
-      let p1 = match(str,'@',p1+1)
-      let p2 = match(str,';',p2+1)
+      let p1 = match(str,s:start_anchor_sym,p1+1)
+      let p2 = match(str,s:stop_anchor_sym,p2+1)
       let cnt += 1
     endwhile
   endfor
@@ -188,12 +193,12 @@ func! s:countEscape(str) "{{{
   return c/2
 endfunc "}}}
 func! s:convertEscape() "{{{
-   call map(s:body,"substitute(v:val,'\\\\@','®','g')")
-   call map(s:body, "substitute(v:val,'\\\\;','¬','g')")
+   call map(s:body,"substitute(v:val,'\\\\'.s:start_anchor_sym,'®','g')")
+   call map(s:body, "substitute(v:val,'\\\\'.s:stop_anchor_sym,'¬','g')")
 endfunc "}}}
 func! s:revertEscape() "{{{
-   call map(s:body,"substitute(v:val,'®','\\@','g')")
-   call map(s:body, "substitute(v:val,'¬',';','g')")
+   call map(s:body,"substitute(v:val,'®','\\'.s:start_anchor_sym,'g')")
+   call map(s:body, "substitute(v:val,'¬',s:stop_anchor_sym,'g')")
 endfunc "}}}
 "Executor:
 func! s:forwardAdjust(pos) "{{{

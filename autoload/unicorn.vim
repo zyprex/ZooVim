@@ -17,7 +17,6 @@
 " fn_end    | [fnref]          | execute func after buffer open
 
 " com! -nargs=1 -complete=command UCmd call unicorn#cmd('<args>')
-" com! -nargs=1 -complete=shellcmd URedir call unicorn#redir('<args>')
 " com! UgitStatus call unicorn#git('status')
 " com! UgitReflog call unicorn#git('reflog')
 " com! UgitDiff call unicorn#git('diff', 'set ft=diff')
@@ -30,6 +29,7 @@
 
 let s:uni_bname = '<<-unicorn->>'
 let s:meat = []
+let s:no_out = 1
 "UNICORN: core
 func! s:getcmdout(fno) "{{{
   if a:fno[0] == 'fun'
@@ -37,7 +37,7 @@ func! s:getcmdout(fno) "{{{
   elseif a:fno[0] == 'cmd'
     let s:meat = split(execute(a:fno[1]),"\n")
   elseif a:fno[0] == 'sys'
-    let s:meat = systemlist(a:fno[1])
+    let s:meat = systemlist(a:fno[1][1:])
   endif
 endfunc "}}}
 func! s:cutRange(n) "{{{
@@ -77,9 +77,7 @@ func! s:renderMatch(mats) "{{{
 endfunc "}}}
 func! s:setcmdout() "{{{
   silent %d _
-  if s:meat == []
-    return
-  endif
+  let s:no_out = 0
   call setline(1,s:meat[0])
   call append(1,s:meat[1:])
 endfunc "}}}
@@ -103,6 +101,7 @@ func! s:unicornRun(state) "{{{
     call sort(s:meat, sortFn)
   endif
   if s:meat == []
+    let s:no_out = 1
     return
   endif
   let ex_pre = get(st,'ex_pre',[])
@@ -139,26 +138,22 @@ endfunc "}}}
 let s:cmd_out = {'fn_out':['cmd','']}
 func! unicorn#cmd(cmd) "{{{
   let cmd = s:cmd_out
+  if a:cmd[0] == '!'
+    let cmd.fn_out[0] = 'sys'
+  endif
   let cmd.fn_out[1] = a:cmd
   call s:unicornRun(cmd)
-endfunc "}}}
-"UNICORN: redir
-let s:redir_out = {'fn_out':['sys','']}
-func! unicorn#redir(cmd) "{{{
-  let redir = s:redir_out
-  let redir.fn_out[1] = a:cmd
-  call s:unicornRun(redir)
 endfunc "}}}
 "UNICORN: git
 let s:git_out = {
       \'fn_out':['sys',''],
-      \'ex_end':['set ft=gitlog','resize 10']
+      \'ex_end':['set ft=gitlog','resize 20']
       \}
 func! unicorn#git(subcmd,...) "{{{
   let gitcmd = s:git_out
-  let gitcmd.fn_out[1] = 'git '.a:subcmd
+  let gitcmd.fn_out[1] = '!git '.a:subcmd
   call s:unicornRun(gitcmd)
-  if a:0 > 0
+  if s:no_out == 0 && a:0 > 0
     exe join(a:000,'|')
   endif
 endfunc "}}}
@@ -279,12 +274,11 @@ let s:webclip_url = {
       \}
 let s:webclip_out = {
       \ 'fn_out':['sys',''],
-      \ 'ex_end': ['resize 10'],
+      \ 'ex_end': ['resize 15'],
       \ 'open': 'sb',
       \ 'map': 's:clearHtmlTags',
       \ 'fn_pre': ['s:purifyContent'],
       \}
-      " \ 'map':'s:clearHtmlTags',
 func! unicorn#webclip(which,query) "{{{
   let webclip = s:webclip_out
   let webclip.matchlist = [['Keyword','\<'.a:query.'\>']]

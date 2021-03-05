@@ -8,26 +8,26 @@
   <title>Document</title>
 </head>
 <body>
-    @ ;
+  
 </body>
 </html>
 
 class
-<div class="@ ;">@;</div>
+<div class=" "></div>
 
 id
-<div id="@ ;">@;</div>
+<div id=" "></div>
 
 co
-console.log(@"";);
+console.log("");
 
 div
-<div>@;</div>
+<div></div>
 
 sc script
-<script@ src="";>@;</script>
+<script src=""></script>
 
 st style
-<style@ src="";>@;</style>
+<style src=""></style>
 
 
