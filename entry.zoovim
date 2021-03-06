@@ -139,7 +139,7 @@ xnoremap <leader>p "+p
 xnoremap <leader>P "+P
 xnoremap <leader>y "+y
 " i-mode s-mode paste
-inoremap <C-Y> <C-O>"+p
+inoremap <C-Y> <C-O>"+P
 snoremap <C-Y> gv"+p
 " append to clipboard reg
 xnoremap say y:let @+ .= @0<cr>

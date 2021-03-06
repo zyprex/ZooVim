@@ -1,0 +1,32 @@
+
+doxh
+/**
+ * \file          =echo expand('%')
+ * \author        zyprex
+ * \version        
+ * \todo           
+ * \date          =echo strftime('%Y/%m/%d %T')
+ */
+
+doxf
+/**
+ * \fn             
+ * \brief          
+ * \param[in,out] name : desc
+ * \return        none
+ * \retval         
+ */
+
+doxm
+/**
+ * \def            
+ * \brief          
+ * \param[in,out] name : desc
+ * \return         
+ * \retval         
+ * \hideinitializer
+ */
+
+doxl
+/**   */
+

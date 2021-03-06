@@ -1,9 +1,8 @@
->> html.snipe
+>> html.snipe javascript.snipe
 
 l line -
 =for liner in range(30)|echon '-'|endfor
 
-
 
 co code
 ```

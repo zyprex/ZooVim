@@ -1,3 +1,4 @@
+>> _CSTYLE.snipes
 
 us
 'use strict';
@@ -20,54 +21,7 @@ prompt( ,"");
 l le let
 let   = ;
 
-if
-if ( ) {
-}
-
-ife
-if ( ) {
-   
-} else {
-   
-}
-
-ifef
-if ( ) {
-   
-} else if ( ) {
-   
-}
-
-ifefe
-if ( ) {
-   
-} else if ( ) {
-   
-} else {
-   
-}
-
-wh while
-while (true) {
-}
-
-fo for
-for ( ) {
-}
-
-sw switch
-switch ( ) {
-  case  :
-     
-    break
-  default:
-}
-
-case  :
-   
-  break;
-
-fu
+fu fun func
 function  ( ) {
   /* code */
 }
@@ -78,7 +32,7 @@ let   = function(){
 
 
 re
-return
+return;
 
 cl class
 class   {

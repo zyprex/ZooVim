@@ -1,9 +1,12 @@
 
-time1
+t1
 =echo strftime("%y-%m-%d %a %T")
 
-time2
+t2
 =echo strftime("%B %d, %Y")
 
-
+td
+time: =echo strftime("%T")
+date: =echo strftime("%Y-%m-%d")
+ 
 

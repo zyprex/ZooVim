@@ -1,0 +1,4 @@
+
+rand
+=echo str2nr(reltimestr(reltime())[-2:])
+

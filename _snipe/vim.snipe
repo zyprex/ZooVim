@@ -26,13 +26,13 @@ fcm
 "---------------------------------------
 
 fo
-for needle in haystack
-  code
+for   in  
+   
 endfor
 
 for
-for needle in range( )
-  code
+for   in range( )
+   
 endfor
 
 wh
@@ -62,7 +62,7 @@ catch /^Vim\%((\a\+)\)\=:E/ "all vim error
 endtry
 
 ex?
-if !exists( )
+if !exists(" ")
 endif
 
 l let
@@ -71,6 +71,8 @@ let   =  
 eof
 " vim:fen:fdm=marker:nowrap:ts=2:
 
-ec
-echo 
+eh
+echohl  
+echo  
+echohl none
 
