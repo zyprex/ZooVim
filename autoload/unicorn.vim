@@ -267,7 +267,7 @@ func! s:clearHtmlTags(k, v) "{{{
   let ret = substitute(ret,'\s\{4,}',' ','g')
   return ret
 endfunc "}}}
-let s:webclip_cmd = 'curl --silent'
+let s:webclip_cmd = '!curl --silent'
 let s:webclip_url = {
       \ 'quword': {'url':'https://www.quword.com/w/%s','range':[202],},
       \ 'wordnet':{'url':'http://wordnetweb.princeton.edu/perl/webwn?sub=Search+WordNet&o2=1&o0=1&o8=1&o1=1&o7=&o5=&o9=&o6=&o3=&o4=1&h=00000000&s=%s','range':[74]},

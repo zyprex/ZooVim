@@ -5,10 +5,10 @@
 " -- usage --
 " "surroundOnion"
 " nnoremap - :call  misc#surroundOnion('nd')<CR>
-" vnoremap - :call  misc#surroundOnion('vd')<CR>
+" xnoremap - :call  misc#surroundOnion('vd')<CR>
 " nnoremap g+ :call misc#surroundOnion('nW')<CR>
 " nnoremap + :call  misc#surroundOnion('nw')<CR>
-" vnoremap + :call  misc#surroundOnion('vv')<CR>
+" xnoremap + :call  misc#surroundOnion('vv')<CR>
 " "comment"
 " com! -range Comment <line1>,<line2>call misc#comment()
 " "for some reason ctrl+/ can't be map, but in terminal it's same as ctrl+_"
@@ -38,7 +38,7 @@
 " Name: surroundOnion{{{
 " Description: surrounds everything
 " Requires:
-" Type: function nnoremap vnoremap
+" Type: function nnoremap xnoremap
 "----------------------------------------
 function! misc#surroundOnion(mode)
   let pairs = {'<':'>','[':']','(':')','{':'}'}

@@ -3,9 +3,11 @@
 cppio
 #include <iostream>
 
-cl
+cl class
 class   {
-     
+   
+public:
+   
 };
 
 
@@ -13,8 +15,8 @@ us
 using namespace std;
 
 cin
-cin>> ;
+cin >>  ;
 
 cout
-cout<< <<endl;
+cout <<   << endl;
 

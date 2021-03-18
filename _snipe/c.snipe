@@ -13,7 +13,7 @@ tt
  
 
 de
-#define  
+#define name what
 
 in
 #include < .h>
@@ -24,20 +24,20 @@ inc
 cio
 #include <stdio.h>
 
-arrl
-#define ARRL(X) sizeof(X)/sizeof(*X)
-
 once
-#ifndef _=echo toupper(expand("%<"))_H_
-#define =echo toupper(expand("%<"))
+#ifndef =echo toupper(expand("%<"))_H
+#define =echo toupper(expand("%<"))_H
  
 #endif /* =echo toupper(expand("%<")) */
 
-si sizeof
+si so sizeof
 sizeof( )
 
 nl newline \n
 putchar(10);
+
+ty typedef
+typedef type newname;
 
 st
 struct   {
@@ -49,8 +49,8 @@ union   {
 
 ma main
 int main(int argc, char *argv[]) {
-     
-    return 0;
+   
+  return 0;
 }
 
 fu fun func
@@ -60,16 +60,16 @@ re
 return 0;
 
 sc scanf
-scanf(" ", & );
+scanf("%s", & );
 
 pr printf
-printf("%s");
+printf("%s\n", );
 
 fp fpo
 FILE* fp = fopen("a.txt","rw+");
-if (NULL==fp) {
-    perror("fopen");
-    return -1;
+if (NULL == fp) {
+  perror("fopen");
+  return -1;
 }
 fclose(fp);
 

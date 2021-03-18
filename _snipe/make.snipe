@@ -1,0 +1,26 @@
+
+!
+# LAST MODIFIED : =echo strftime("%B %d, %Y")
+# MAKE PROGRAM  : make
+# PLATFORM      : unix
+# DESCRIPTION   : this makefile is used to ...
+CC    := gcc
+FLAGS := -g -Wall
+RM    := rm
+
+cl clean
+.PHONY: clean
+clean:
+	$(RM) *.o
+
+sub subst
+$(patsubst %.c, %.out, $(wildcard *.c))
+
+if
+ifeq ( ,  )
+endif
+
+el else
+else
+	 
+

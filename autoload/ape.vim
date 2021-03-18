@@ -25,7 +25,6 @@ set completeopt=menuone,noinsert,noselect,popup
 if has('popupwin')
   set completepopup=highlight:Pmenu,align:menu,border:off
 endif
-
 let s:ape_compl_ways = [
       \ "\<C-P>",
       \ "\<C-X>\<C-L>",
@@ -35,7 +34,6 @@ let s:ape_compl_ways = [
       \ "\<C-X>\<C-U>",
       \ "\<C-X>s",
       \]
-
 "APE_TAB:
 func! ape#do(rev) "{{{
   let m =  getline('.')[:col('.')-1]
@@ -76,11 +74,11 @@ endfunc "}}}
 
 "APE_POP_MENU:
 func! ape#popMenu() "{{{
-  if pumvisible()
+  if pumvisible() || col('.') == 1
     return
   endif
   if match(getline('.')[:col('.')-2]
-        \,'\S\{'.get(g:,"ape_pop_char",2).',}$') !=-1
+        \, get(b:,"ape_pop_cond_regx", '\k\{2}$')) != -1
     call feedkeys(get(b:,'ape_this_ways',"\<C-P>"),'n')
   endif
 endfunc "}}}
@@ -93,5 +91,44 @@ func! ape#enablePopMenu(en) "{{{
   elseif a:en==0
     aug ApePopMenu | au! | aug END
   endif
+endfunc "}}}
+"APE_COMP_FUNC:
+func! s:shorten(str,maxlen) "{{{
+  if len(a:str) > a:maxlen
+    return strcharpart(a:str, 0, a:maxlen-1).'…'
+  endif
+  return a:str
+endfunc "}}}
+func! ape#completeTags(findstart, base) "{{{
+  if a:findstart != 0
+    let line = getline('.')
+    let start = col('.') - 1
+    while start > 0 && line[start - 1] =~ '\k'
+      let start -= 1
+    endwhile
+    return start
+  else
+    let tlist = taglist('^'.a:base, expand('%:p'))
+    for tag_item in tlist
+      let m_item = {
+            \ 'word' : tag_item['name'],
+            \ 'kind' : tag_item['kind'],
+            \ 'icase': 1,
+            \}
+      let m_item.abbr = s:shorten(tag_item.name, 20)
+      let tmenu = get(tag_item, 'type','').get(tag_item, 'typeref','')
+      if tmenu != ''
+        let m_item.menu = s:shorten(substitute(tmenu,'^typename:','',''), 20)
+      endif
+      let m_item.info = trim(tag_item['cmd'][2:-3])
+      if complete_add(m_item) == 0
+        return []
+      endif
+      if complete_check()
+        return []
+      endif
+    endfor
+  endif
+  return []
 endfunc "}}}
 " vim:fen:fdm=marker:nowrap:ts=2:

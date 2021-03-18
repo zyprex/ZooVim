@@ -2,9 +2,10 @@
 doxh
 /**
  * \file          =echo expand('%')
- * \author        zyprex
+ * \brief          
  * \version        
  * \todo           
+ * \author        zyprex
  * \date          =echo strftime('%Y/%m/%d %T')
  */
 
