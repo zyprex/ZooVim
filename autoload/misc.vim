@@ -30,7 +30,10 @@
 " com! FiledoMkdir call misc#filedo("mkdir")
 " "indentRuler"
 " com! IndentRuler call misc#indentRuler()
-" Last Modified: February 13, 2021
+" "rollingSave"
+" com! RollingSaveOn call misc#rollingSave(1)
+" com! RollingSaveOff call misc#rollingSave(-1)
+" Last Modified: May 12, 2021
 " ======================================================================
 
 "Improved Edit: {{{
@@ -520,6 +523,22 @@ function! misc#baseConv(base)
   exec 's/'.cw.'/\=printf("%'.fmc.'",submatch(0))/g'
   call setpos('.', save_cursor)
 endfunction "}}}
+"----------------------------------------
+" Name:  rollingSave
+" Description: save file automatically
+" Requires:
+" Type: function
+"---------------------------------------
+func! misc#rollingSave(en) "{{{
+  if a:en == 1
+    aug RollingSave
+      au!
+      au CursorHold * silent update
+    aug END
+  elseif a:en == 0
+    aug RollingSave | au! | aug END
+  endif
+endfunc "}}}
 "}}}
 
 " vim:fen:fdm=marker:nowrap:ts=2:

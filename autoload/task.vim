@@ -6,6 +6,13 @@
 " -- usage --
 " com! -nargs=+ -complete=shellcmd Task call task#run('<args>')
 " com! TaskLog call task#log()
+" -- example configure --
+" for "C" code
+" nnoremap<buffer> <leader>c :Task gcc -c -fsyntax-only %<CR>
+" nnoremap<buffer> <leader>b :Task gcc -Wall -o %< %<CR>
+" nnoremap<buffer> <leader>d :Task gcc -Wall -g -o %< %<CR>
+" nnoremap<buffer> <leader>g :bel terminal ++close ++rows=10 gdb -q %< <CR>
+" nnoremap<buffer> <leader>t :Task ctags --kinds-C=+pl %<CR>
 " Last Modified: February 13, 2021
 " ======================================================================
 let g:task_log = []

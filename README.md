@@ -4,17 +4,18 @@
 You may find most of my autoload plugin's name relative to a creature, so I
 named it ZooVim.
 
-ZooVim is my personal vim conf for daily use. ZooVim is not for developer but for
-editor or writer. ZooVim don't provide any plugin in plugin dir, all I provide
-is a bunch of autoload files, some script tools and an example of vimrc. ZooVim
-is not one-stop shop for vim configure, you should tailored my example vimrc to fit
-your needs.
+ZooVim's mainly purpose is let vim be (or most likely be) a generic code editor,
+more than the text editor. ZooVim is my personal vim configure for daily use.
+ZooVim don't provide any plugin in plugin dir, all it provide
+is a bunch of autoload files, some script tools and an example of vimrc (entry.zoovim).
+ZooVim is not one-stop shop for vim configure, you should tailored my example vimrc
+to fit your needs.
 
-**CAUTION_1**: some autoload file auto changes vim's default option that could
+**CAUTION 1**: some autoload file auto changes vim's default option that could
 harassd you, before you use it, read the DESCRIPTION, and lines begin with
 `set` in every autoload file.
 
-**CAUTION_2**: some feature still in building, use at your own discretion!
+**CAUTION 2**: some feature still in building, use at your own discretion!
 
 
 # Features

@@ -65,7 +65,7 @@ scanf("%s", & );
 pr printf
 printf("%s\n", );
 
-fp fpo
+fp fpo fop
 FILE* fp = fopen("a.txt","rw+");
 if (NULL == fp) {
   perror("fopen");

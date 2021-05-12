@@ -178,6 +178,9 @@ com! FiledoRmdir call misc#filedo("rmdir")
 com! FiledoMkdir call misc#filedo("mkdir")
 "indentRuler"
 com! IndentRuler call misc#indentRuler()
+"rollingSave
+com! RollingSaveOn call misc#rollingSave(1)
+com! RollingSaveOff call misc#rollingSave(0)
 "}}}
 
 " Plugin:{{{

@@ -18,7 +18,11 @@
 "   au!
 "   au CursorHoldI * call ape#popMenu()
 " aug END
-" Last Modified: March 04, 2021
+" [configure in ftplugin]
+" let b:ape_compl_ways = ["\<C-P>", "\<C-X>\<C-U>"]
+" let b:ape_pop_cond_regx = '\k\{4}$'
+" setl completefunc=ape#completeTags
+" Last Modified: March 19, 2021
 " ======================================================================
 set complete=.,w,b,u,t,i,k,s,d
 set completeopt=menuone,noinsert,noselect,popup
