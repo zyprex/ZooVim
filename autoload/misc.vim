@@ -533,7 +533,8 @@ func! misc#rollingSave(en) "{{{
   if a:en == 1
     aug RollingSave
       au!
-      au CursorHold * silent update
+      au CursorHold * silent if !&readonly && &modifiable && &buftype == ""
+            \| update | endif
     aug END
   elseif a:en == 0
     aug RollingSave | au! | aug END

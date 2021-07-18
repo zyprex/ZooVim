@@ -76,3 +76,6 @@ fclose(fp);
 pe perr
 perror(" ");
 
+malloc
+(t_ptr)malloc(size_t) 
+
