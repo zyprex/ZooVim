@@ -261,7 +261,7 @@ func! bar#GitBranchName() "{{{
     return bar#GitHeadName(git_path.sp."HEAD")
   else
     let sp_pos = len(cpath)
-    while sp_pos > last_cnt
+    while sp_pos > last_cnt && sp_pos > 1
       let sp_pos = match(cpath,sp_pattern)
       let cpath = cpath[:sp_pos-1] "echo cpath.sp.'.git'
       let git_path = cpath.sp.'.git'
