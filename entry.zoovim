@@ -6,6 +6,11 @@
 " ======================================================================
 " Required:{{{
 if &cp | set cp! | endif
+if $TERM == 'st-256color'
+  " truecolor support for st terminal
+  set t_8f=[38;2;%lu;%lu;%lum
+  set t_8b=[48;2;%lu;%lu;%lum
+endif
 filetype plugin indent on
 syntax enable
 set rtp+=~/.vim,~/.vimlocal
@@ -48,6 +53,8 @@ set listchars=tab:»\ ,trail:·,nbsp:_,precedes:<,extends:>
 " enable fuzzy finding in command line
 set wildmenu wildmode=full path+=$PWD/**
 set linebreak breakindent breakat=" ;:,./?!" showbreak=
+" default local option
+set expandtab shiftwidth=2 tabstop=2 autoindent smartindent
 "}}}
 
 "Autocmd:{{{
@@ -55,11 +62,6 @@ aug CommonUI
   au!
   au FileType vim,c,cpp,html,css,javascript,markdown
         \ setl nu rnu list formatoptions+=mBj
-aug END
-aug CommonIndent
-  au!
-  au FileType vim,c,cpp,html,css,javascript,markdown
-        \ setl expandtab shiftwidth=2 tabstop=2 autoindent smartindent
 aug END
 aug CommonFold
   au!
