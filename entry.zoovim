@@ -7,6 +7,7 @@
 " Required:{{{
 if &cp | set cp! | endif
 if $TERM == 'st-256color'
+  set t_ut=
   " truecolor support for st terminal
   set t_8f=[38;2;%lu;%lu;%lum
   set t_8b=[48;2;%lu;%lu;%lum
@@ -118,6 +119,12 @@ nnoremap <C-k> :m-2<CR>==
 nnoremap <C-j> :m+<CR>==
 xnoremap <C-k> :m<C-R>=line('v')-2<CR><CR>gv=gv
 xnoremap <C-j> :m<C-R>=line("'>")+1<CR><CR>gv=gv
+" Emacs line edit keybind in insert mode
+inoremap <C-f> <right>
+inoremap <C-b> <left>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-x>a <C-a>
 " buffer maximize
 " nnoremap <C-w><C-w> <C-w><C-w><C-w><C-_><C-w><C-\|>
 " reselect visual block after indent
@@ -221,7 +228,7 @@ com! -nargs=* -complete=file FeRg call fenrir#Rg('<args>')
 com! -nargs=* -complete=file FeAg call fenrir#Ag('<args>')
 com! -nargs=* -complete=file FeCtags call fenrir#Ctags('<args>')
 
-inoremap<silent> <C-E> :call snipe#fly()<CR>
+inoremap<silent> <C-E> :call snipe#fly('A')<CR>
 inoremap<silent> <C-D> :call snipe#Forward()<CR>
 inoremap<silent> <C-S> :call snipe#Backward()<CR>
 snoremap<silent> <C-D> :call snipe#Forward()<CR>
@@ -293,5 +300,7 @@ let g:tog_group_maps =  [
       \[ "h","hitest", "call misc#toggler('hitest')"],
       \]
 "}}}
+
+command Colorize so ~/.vim/tools/colortable.vim
 
 " vim:ft=vim:fen:fdm=marker:nowrap:ts=2

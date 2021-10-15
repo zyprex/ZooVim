@@ -85,10 +85,12 @@ function! misc#comment() "{{{
 let comstr = {
 \'c':'/* */',
 \'go':'//',
-\'sh':'#',
 \'cpp':'//',
+\'sh':'#',
+\'bash':'#',
 \'zsh':'#',
 \'vim':'"',
+\'lisp':';;',
 \'lua':'--',
 \'css':'/* */',
 \'html':'<!-- -->',

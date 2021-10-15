@@ -19,7 +19,7 @@
 "  e.g. before '=echo 123' after '123'
 "  [ recommend configure ]
 " let g:snipe_dir = '~/.vim/_snipe'
-" inoremap<silent> <C-E> :call snipe#fly()<CR>
+" inoremap<silent> <C-E> :call snipe#fly('A')<CR>
 " inoremap<silent> <C-D> :call snipe#Forward()<CR>
 " inoremap<silent> <C-S> :call snipe#Backward()<CR>
 " snoremap<silent> <C-D> :call snipe#Forward()<CR>
@@ -312,11 +312,11 @@ func! snipe#Backward() "{{{
   endif
   call s:placeholderJmp(b:snipe_jmp_pos)
 endfunc "}}}
-func! snipe#fly() "{{{
+func! snipe#fly(normkey) "{{{
   let s:keyword = s:getWD()
   let s:body = s:readSnip()
   if s:body == []
-    call feedkeys('a')
+    call feedkeys(a:normkey)
     return
   endif
   call s:convertEscape()
