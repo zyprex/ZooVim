@@ -204,6 +204,18 @@ function! misc#getVisualRegion()
   let lines[0]  = lines[0][column_start - 1:]
   return join(lines, "\n")
 endfunction"}}}
+"----------------------------------------
+" Name:  rabbitJump
+" Description: jump to line with first char
+" Requires:
+" Type: function
+"---------------------------------------
+func! misc#rabbitJump() "{{{
+  let searchpat = '\%>' . line("w0") .  'l\%<' . line("w$") 
+        \ . 'l^\s*\zs[^_a-zA-Z]*' . nr2char(getchar())
+  exe '/' . searchpat
+  let @/ = searchpat
+endfunc "}}}
 "}}}
 
 "Improved File Manager: {{{
