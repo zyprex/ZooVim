@@ -18,6 +18,9 @@
 " xnoremap<expr><silent> gc misc#commentRange()
 " "indentAt"
 " com! -range -nargs=* I call misc#indentAt(<line1>, <line2>, '<args>', ' ')
+" "rabbitJump"
+" nnoremap <A-n> :silent! call misc#rabbitJump("F")<CR>
+" nnoremap <A-p> :silent! call misc#rabbitJump("B")<CR>
 " "directCd"
 " com! DirectCd call misc#directCd()
 " "ftconf"
@@ -33,7 +36,7 @@
 " "rollingSave"
 " com! RollingSaveOn call misc#rollingSave(1)
 " com! RollingSaveOff call misc#rollingSave(-1)
-" Last Modified: May 12, 2021
+" Last Modified: May 09, 2022
 " ======================================================================
 
 "Improved Edit: {{{
@@ -205,16 +208,48 @@ function! misc#getVisualRegion()
   return join(lines, "\n")
 endfunction"}}}
 "----------------------------------------
-" Name:  rabbitJump
+" Name:  rabbitJump{{{
 " Description: jump to line with first char
 " Requires:
 " Type: function
 "---------------------------------------
-func! misc#rabbitJump() "{{{
-  let searchpat = '\%>' . line("w0") .  'l\%<' . line("w$") 
-        \ . 'l^\s*\zs[^_a-zA-Z]*' . nr2char(getchar())
-  exe '/' . searchpat
-  let @/ = searchpat
+func! misc#rabbitJump(direct)
+  if a:direct == "F"
+    let dt = ''
+    let stopline =  line("w$")
+  elseif  a:direct == "B"
+    let dt = 'b'
+    let stopline =  line("w0")
+  else
+    return
+  endif
+  let cul_old = &cul
+  let ic_old = &ic
+  let &cul = 1
+  let &ic = 0
+  let ch =  nr2char(getchar())
+  if ch =~ '\a'
+    let pattern = '^\(\s\|\A\)*' . ch
+  else
+    let pattern = '^\s*' . ch . '\A*$'
+  endif
+  call search(pattern, dt, stopline)
+  redraw
+  while (1)
+    let nch = nr2char(getchar())
+    if nch != ch
+      let &cul = cul_old
+      let &ic = ic_old
+      break
+    end
+    if nch =~ '\a'
+      let pattern = '^\(\s\|\A\)*' . ch
+    else
+      let pattern = '^\s*' . ch . '\A*$'
+    endif
+    call search(pattern, dt, stopline)
+    redraw
+  endwhile
 endfunc "}}}
 "}}}
 

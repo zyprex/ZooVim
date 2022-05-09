@@ -2,7 +2,7 @@
 " File: entry.zoovim
 " Author: zyprex
 " Description:  example .vimrc for zoovim
-" Last Modified: March 17, 2021
+" Last Modified: May 09, 2022
 " ======================================================================
 " Required:{{{
 if &cp | set cp! | endif
@@ -157,7 +157,8 @@ xnoremap say y:let @+ .= @0<cr>
 " use :@0 after yank 'echo 0'
 " nnoremap <F7> :exe getline(".")<CR> "use :<C-r>l<CR>
 " xnoremap <F7> :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
-nnoremap<silent> <leader>n :silent! call misc#rabbitJump()<CR>
+nnoremap <A-n> :silent! call misc#rabbitJump("F")<CR>
+nnoremap <A-p> :silent! call misc#rabbitJump("B")<CR>
 "}}}
 
 " Misc:{{{
