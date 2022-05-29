@@ -224,6 +224,7 @@ substitute~
 ================================================================
 					     *SOS-pattern-regex*
 pattern-searches~
+  search chinese character: `[\u4e00-\u9fa5]`
 
 ================================================================
 					 *SOS-buffer-tab-window*
